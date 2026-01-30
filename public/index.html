@@ -1,1 +1,3040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dholuo Pro - Language Learning</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361EE;
+            --primary-light: #4895EF;
+            --primary-dark: #3A56D4;
+            --primary-bg: rgba(67, 97, 238, 0.1);
+            --primary-bg-dark: rgba(67, 97, 238, 0.2);
+            --secondary: #F72585;
+            --secondary-light: #FF5AA8;
+            --accent: #4CC9F0;
+            --dark: #2B2D42;
+            --dark-light: #4A4B63;
+            --light: #F8F9FA;
+            --gray: #E9ECEF;
+            --gray-dark: #6C757D;
+            --success: #4CAF50;
+            --success-light: #E8F5E9;
+            --danger: #F44336;
+            --danger-light: #FFEBEE;
+            --warning: #FF9800;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --radius: 10px;
+            --radius-sm: 6px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Highlight colors for syntax comparison */
+            --highlight-subject: rgba(67, 97, 238, 0.15);
+            --highlight-prefix: rgba(76, 201, 240, 0.15);
+            --highlight-verb: rgba(79, 195, 247, 0.15);
+            --highlight-conjunction: rgba(247, 37, 133, 0.15);
+            --highlight-adjective: rgba(156, 39, 176, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.5;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        
+        /* App Header */
+        .app-header {
+            background: white;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            height: 64px;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .app-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+        
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .xp-badge {
+            background: var(--light);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--dark);
+            border: 1px solid var(--gray);
+        }
+        
+        .xp-badge i {
+            color: var(--secondary);
+        }
+        
+        .streak-badge {
+            background: linear-gradient(135deg, var(--secondary), var(--secondary-light));
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: white;
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            background: white;
+            padding: 12px 0;
+            border-top: 1px solid var(--gray);
+            position: sticky;
+            bottom: 0;
+            z-index: 100;
+            height: 64px;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--gray-dark);
+            text-decoration: none;
+            transition: var(--transition);
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            flex: 1;
+            max-width: 100px;
+        }
+        
+        .nav-item.active {
+            color: var(--primary);
+            background: var(--primary-bg);
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+        }
+        
+        .nav-label {
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        /* View Containers */
+        .view-container {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .view-container.active {
+            display: block;
+        }
+        
+        /* Dashboard View */
+        .dashboard-view {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .welcome-card {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 24px;
+            border-radius: var(--radius);
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .welcome-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .welcome-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .continue-btn {
+            background: white;
+            color: var(--primary);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+        
+        .continue-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray);
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: var(--gray-dark);
+        }
+        
+        .progress-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray);
+            margin-bottom: 16px;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .progress-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background: var(--gray);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: var(--gray-dark);
+        }
+        
+        /* Units Sidebar */
+        .units-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: white;
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            transform: translateX(-100%);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--gray);
+        }
+        
+        .units-sidebar.active {
+            transform: translateX(0);
+        }
+        
+        .units-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .units-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .close-units {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--light);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--dark);
+            transition: var(--transition);
+        }
+        
+        .close-units:hover {
+            background: var(--gray);
+        }
+        
+        .units-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+        }
+        
+        .unit-item {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--gray);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .unit-item:hover {
+            background: var(--light);
+        }
+        
+        .unit-item.active {
+            background: var(--primary-bg);
+        }
+        
+        .unit-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .unit-status {
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        
+        .unit-status.completed {
+            background: var(--success-light);
+            color: var(--success);
+        }
+        
+        .unit-status.in-progress {
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+        }
+        
+        .unit-status.not-started {
+            background: var(--gray);
+            color: var(--gray-dark);
+        }
+        
+        .lesson-items {
+            padding-left: 20px;
+            margin-top: 8px;
+            display: none;
+        }
+        
+        .unit-item.active .lesson-items {
+            display: block;
+        }
+        
+        .lesson-item {
+            padding: 10px 12px;
+            margin-bottom: 4px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+            color: var(--dark-light);
+            border-left: 3px solid transparent;
+        }
+        
+        .lesson-item:hover {
+            background: var(--gray);
+        }
+        
+        .lesson-item.active {
+            background: var(--primary-bg-dark);
+            color: var(--primary);
+            font-weight: 500;
+            border-left-color: var(--primary);
+        }
+        
+        .quiz-item {
+            padding: 10px 12px;
+            margin-top: 8px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+            color: var(--secondary);
+            background: rgba(247, 37, 133, 0.05);
+            border-left: 3px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .quiz-item:hover {
+            background: rgba(247, 37, 133, 0.1);
+        }
+        
+        .quiz-item.active {
+            background: rgba(247, 37, 133, 0.1);
+            border-left-color: var(--secondary);
+        }
+        
+        /* Learn View */
+        .learn-view {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .learn-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .learn-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .show-units-btn {
+            background: var(--light);
+            color: var(--primary);
+            border: 1px solid var(--gray);
+            padding: 10px 20px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+        
+        .show-units-btn:hover {
+            background: white;
+            border-color: var(--primary);
+        }
+        
+        .lesson-container {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray);
+            overflow: hidden;
+        }
+        
+        .lesson-content {
+            padding: 32px;
+        }
+        
+        .lesson-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--dark);
+        }
+        
+        .lesson-subtitle {
+            font-size: 18px;
+            color: var(--gray-dark);
+            margin-bottom: 32px;
+        }
+        
+        .lesson-section {
+            margin-bottom: 32px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .lesson-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--dark-light);
+            margin-bottom: 16px;
+        }
+        
+        .example-box {
+            background: var(--light);
+            padding: 20px;
+            border-radius: var(--radius);
+            border: 1px solid var(--gray);
+            margin: 16px 0;
+        }
+        
+        .example-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .example-row:last-child {
+            border-bottom: none;
+        }
+        
+        .example-header {
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 2px solid var(--primary);
+            margin-bottom: 8px;
+        }
+        
+        .luo-text {
+            font-weight: 600;
+            color: var(--primary);
+            width: 25%;
+        }
+        
+        .english-text {
+            color: var(--dark-light);
+            width: 25%;
+        }
+        
+        .swahili-text {
+            color: var(--secondary);
+            width: 25%;
+        }
+        
+        .pronunciation {
+            font-size: 14px;
+            color: var(--accent);
+            font-style: italic;
+            width: 25%;
+        }
+        
+        .parts-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .parts-table th {
+            background: var(--primary);
+            color: white;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .parts-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .parts-table tr:hover {
+            background: var(--light);
+        }
+        
+        .parts-table .type {
+            font-weight: 600;
+            color: var(--primary);
+            width: 20%;
+        }
+        
+        .parts-table .english {
+            width: 25%;
+        }
+        
+        .parts-table .swahili {
+            width: 25%;
+            color: var(--secondary);
+        }
+        
+        .parts-table .luo {
+            width: 30%;
+            color: var(--dark);
+            font-weight: 500;
+        }
+        
+        .practice-btn {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            margin: 16px 0;
+            border: none;
+            transition: var(--transition);
+        }
+        
+        .practice-btn:hover {
+            background: var(--secondary-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        .lesson-actions {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 32px;
+            border-top: 1px solid var(--gray);
+            background: var(--light);
+        }
+        
+        .lesson-btn {
+            padding: 12px 24px;
+            border-radius: var(--radius);
+            border: 1px solid var(--gray);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            background: white;
+            color: var(--dark);
+        }
+        
+        .lesson-btn.primary {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .lesson-btn.secondary {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+        
+        .lesson-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        .lesson-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .next-unit-btn {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+        
+        .next-unit-btn:hover:not(:disabled) {
+            background: #43a047;
+        }
+        
+        /* Practice View */
+        .practice-view {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .practice-header {
+            margin-bottom: 32px;
+        }
+        
+        .practice-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+        
+        .practice-subtitle {
+            font-size: 16px;
+            color: var(--gray-dark);
+        }
+        
+        .vocabulary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        
+        .vocab-card {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .vocab-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .vocab-image {
+            height: 140px;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .vocab-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .vocab-content {
+            padding: 16px;
+        }
+        
+        .vocab-luo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+        
+        .vocab-english {
+            font-size: 16px;
+            color: var(--gray-dark);
+            margin-bottom: 4px;
+        }
+        
+        .vocab-swahili {
+            font-size: 14px;
+            color: var(--secondary);
+            margin-bottom: 8px;
+        }
+        
+        .vocab-pronunciation {
+            font-size: 14px;
+            color: var(--accent);
+            font-style: italic;
+        }
+        
+        .practice-options {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+        }
+        
+        /* Quiz View */
+        .quiz-view {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .quiz-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+        
+        .quiz-subtitle {
+            font-size: 16px;
+            color: var(--gray-dark);
+        }
+        
+        .quiz-progress {
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray);
+            margin-bottom: 24px;
+        }
+        
+        .quiz-progress-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .quiz-counter {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .quiz-timer {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .quiz-progress-bar {
+            height: 6px;
+            background: var(--gray);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .quiz-progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .quiz-question-container {
+            background: white;
+            padding: 32px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray);
+            margin-bottom: 24px;
+        }
+        
+        .quiz-question {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            line-height: 1.4;
+            color: var(--dark);
+        }
+        
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+        
+        @media (min-width: 640px) {
+            .quiz-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        .quiz-option {
+            padding: 16px;
+            background: white;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid var(--gray);
+            text-align: left;
+            font-size: 16px;
+            position: relative;
+        }
+        
+        .quiz-option:hover {
+            border-color: var(--primary);
+            background: rgba(67, 97, 238, 0.02);
+        }
+        
+        .quiz-option.selected {
+            border-color: var(--primary);
+            background: rgba(67, 97, 238, 0.05);
+        }
+        
+        .quiz-option.correct {
+            border-color: var(--success);
+            background: var(--success-light);
+        }
+        
+        .quiz-option.incorrect {
+            border-color: var(--danger);
+            background: var(--danger-light);
+        }
+        
+        .option-icon {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: var(--transition);
+        }
+        
+        .quiz-option.correct .option-icon {
+            background: var(--success);
+            color: white;
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .quiz-option.incorrect .option-icon {
+            background: var(--danger);
+            color: white;
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .quiz-actions {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .quiz-btn {
+            padding: 14px 32px;
+            border-radius: var(--radius);
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            background: var(--primary);
+            color: white;
+        }
+        
+        .quiz-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        .quiz-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        /* Quiz Results */
+        .quiz-results-view {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .quiz-results {
+            background: white;
+            padding: 40px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .result-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--success);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto 24px;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .result-icon.fail {
+            background: var(--danger);
+        }
+        
+        .results-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--dark);
+        }
+        
+        .results-score {
+            font-size: 64px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+        }
+        
+        .results-message {
+            font-size: 18px;
+            color: var(--gray-dark);
+            margin-bottom: 32px;
+            max-width: 400px;
+        }
+        
+        .results-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .results-btn {
+            padding: 14px 24px;
+            border-radius: var(--radius);
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: var(--transition);
+            flex: 1;
+            min-width: 140px;
+        }
+        
+        .results-btn.secondary {
+            background: var(--light);
+            color: var(--dark);
+            border: 1px solid var(--gray);
+        }
+        
+        .results-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .results-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        /* Profile View */
+        .profile-view {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .profile-card {
+            background: white;
+            padding: 32px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray);
+            margin-bottom: 24px;
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+        
+        .profile-level {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        
+        .profile-stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: var(--gray-dark);
+        }
+        
+        .profile-section {
+            margin-bottom: 32px;
+        }
+        
+        .section-header {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .settings-list {
+            list-style: none;
+            background: white;
+            border-radius: var(--radius);
+            border: 1px solid var(--gray);
+            overflow: hidden;
+        }
+        
+        .setting-item {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+        
+        .setting-info {
+            flex: 1;
+        }
+        
+        .setting-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+        
+        .setting-description {
+            font-size: 14px;
+            color: var(--gray-dark);
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 52px;
+            height: 26px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--gray);
+            transition: var(--transition);
+            border-radius: 34px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: var(--transition);
+            border-radius: 50%;
+        }
+        
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: var(--primary);
+        }
+        
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+        
+        .logout-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--danger-light);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: var(--transition);
+            margin-top: 20px;
+        }
+        
+        .logout-btn:hover {
+            background: var(--danger);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes confetti {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(500px) rotate(360deg); opacity: 0; }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease forwards;
+        }
+        
+        /* Confetti */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            display: none;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--secondary);
+            top: -10px;
+            opacity: 0;
+        }
+        
+        /* Audio Player */
+        .audio-player {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 16px 0;
+            padding: 12px;
+            background: var(--light);
+            border-radius: var(--radius);
+            border: 1px solid var(--gray);
+        }
+        
+        .play-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .play-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+        
+        .audio-text {
+            font-size: 14px;
+            color: var(--gray-dark);
+        }
+        
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+        
+        .overlay.active {
+            display: block;
+        }
+        
+        /* New: Syntax Highlighting */
+        .syntax-highlight {
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+        
+        .highlight-subject {
+            background-color: var(--highlight-subject);
+            color: var(--primary);
+        }
+        
+        .highlight-prefix {
+            background-color: var(--highlight-prefix);
+            color: var(--accent);
+        }
+        
+        .highlight-verb {
+            background-color: var(--highlight-verb);
+            color: #0288d1;
+        }
+        
+        .highlight-conjunction {
+            background-color: var(--highlight-conjunction);
+            color: var(--secondary);
+        }
+        
+        .highlight-adjective {
+            background-color: var(--highlight-adjective);
+            color: #9c27b0;
+        }
+        
+        .syntax-comparison {
+            background: var(--light);
+            padding: 20px;
+            border-radius: var(--radius);
+            border: 1px solid var(--gray);
+            margin: 20px 0;
+        }
+        
+        .comparison-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .comparison-row {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed var(--gray);
+        }
+        
+        .comparison-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .language-label {
+            min-width: 80px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-right: 12px;
+        }
+        
+        .language-sentence {
+            flex: 1;
+            line-height: 1.5;
+        }
+        
+        .syntax-explanation {
+            font-size: 14px;
+            color: var(--gray-dark);
+            font-style: italic;
+            margin-top: 8px;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: 4px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 16px;
+            }
+            
+            .welcome-title {
+                font-size: 20px;
+            }
+            
+            .lesson-content {
+                padding: 24px;
+            }
+            
+            .lesson-title {
+                font-size: 24px;
+            }
+            
+            .units-sidebar {
+                width: 280px;
+            }
+            
+            .vocabulary-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            }
+            
+            .results-actions {
+                flex-direction: column;
+            }
+            
+            .results-btn {
+                width: 100%;
+            }
+            
+            .parts-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .comparison-row {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .language-label {
+                min-width: auto;
+                margin-right: 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header-right {
+                gap: 12px;
+            }
+            
+            .xp-badge, .streak-badge {
+                padding: 4px 8px;
+                font-size: 12px;
+            }
+            
+            .lesson-actions {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .lesson-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .practice-options {
+                flex-direction: column;
+            }
+            
+            .example-row {
+                flex-direction: column;
+                gap: 4px;
+            }
+            
+            .luo-text, .english-text, .swahili-text, .pronunciation {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- App Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="app-logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <div class="logo-text">Dholuo Pro</div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="xp-badge">
+                    <i class="fas fa-star"></i>
+                    <span id="xpCount">1,850 XP</span>
+                </div>
+                <div class="streak-badge">
+                    <i class="fas fa-fire"></i>
+                    <span id="streakCount">5 days</span>
+                </div>
+                <div class="user-avatar" id="userAvatar">JK</div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard View -->
+            <div class="view-container active" id="dashboardView">
+                <div class="welcome-card">
+                    <h1 class="welcome-title">Jambo, James!</h1>
+                    <p class="welcome-subtitle">Continue learning Dholuo where you left off</p>
+                    <button class="continue-btn" id="continueBtn">
+                        <i class="fas fa-play"></i>
+                        Continue Learning
+                    </button>
+                </div>
+                
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-value">4</div>
+                        <div class="stat-label">Units Completed</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">142</div>
+                        <div class="stat-label">Words Learned</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">87%</div>
+                        <div class="stat-label">Quiz Accuracy</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">Day Streak</div>
+                    </div>
+                </div>
+                
+                <div class="progress-card">
+                    <div class="progress-header">
+                        <div class="progress-title">Current Progress</div>
+                        <div class="progress-percent">60%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 60%"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span>Unit 4: Parts of Speech & Grammar</span>
+                        <span>2/3 lessons</span>
+                    </div>
+                </div>
+                
+                <div class="progress-card">
+                    <div class="progress-header">
+                        <div class="progress-title">Recent Quiz Performance</div>
+                        <div class="progress-percent">85%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 85%; background: var(--success);"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span>Last quiz: Unit 3</span>
+                        <span>17/20 correct</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Learn View -->
+            <div class="view-container" id="learnView">
+                <div class="learn-header">
+                    <h1 class="learn-title" id="learnTitle">Unit 4: Parts of Speech & Grammar</h1>
+                    <button class="show-units-btn" id="showUnitsBtn">
+                        <i class="fas fa-list"></i>
+                        Show Units
+                    </button>
+                </div>
+                
+                <div class="lesson-container">
+                    <div class="lesson-content" id="lessonContent">
+                        <!-- Lesson content will be loaded here -->
+                    </div>
+                    
+                    <div class="lesson-actions" id="lessonActions">
+                        <button class="lesson-btn" id="prevLessonBtn" disabled>
+                            <i class="fas fa-chevron-left"></i>
+                            Previous
+                        </button>
+                        <div>
+                            <button class="lesson-btn secondary" id="practiceLessonBtn" style="margin-right: 10px;">
+                                <i class="fas fa-dumbbell"></i>
+                                Practice
+                            </button>
+                            <button class="lesson-btn primary" id="nextLessonBtn">
+                                Next
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Practice View -->
+            <div class="view-container" id="practiceView">
+                <div class="practice-header">
+                    <h1 class="practice-title">Practice & Vocabulary</h1>
+                    <p class="practice-subtitle">Learn words with images and audio pronunciation</p>
+                </div>
+                
+                <div class="vocabulary-grid" id="vocabularyGrid">
+                    <!-- Vocabulary cards will be loaded here -->
+                </div>
+                
+                <div class="practice-options">
+                    <button class="lesson-btn primary" id="startVocabQuizBtn">
+                        <i class="fas fa-brain"></i>
+                        Vocabulary Quiz
+                    </button>
+                    <button class="lesson-btn" id="pronunciationPracticeBtn">
+                        <i class="fas fa-volume-up"></i>
+                        Pronunciation Practice
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Quiz View -->
+            <div class="view-container" id="quizView">
+                <div class="quiz-container" id="quizContainer">
+                    <!-- Quiz will be loaded here -->
+                </div>
+            </div>
+            
+            <!-- Quiz Results -->
+            <div class="view-container" id="quizResultsView">
+                <div class="quiz-results">
+                    <!-- Results will be loaded here -->
+                </div>
+            </div>
+            
+            <!-- Profile View -->
+            <div class="view-container" id="profileView">
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar">JK</div>
+                        <div class="profile-info">
+                            <h1 class="profile-name">James Kariuki</h1>
+                            <div class="profile-level">Level 7 Learner</div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-stats">
+                        <div class="profile-stat">
+                            <div class="stat-value">1,850</div>
+                            <div class="stat-label">Total XP</div>
+                        </div>
+                        <div class="profile-stat">
+                            <div class="stat-value">142</div>
+                            <div class="stat-label">Words</div>
+                        </div>
+                        <div class="profile-stat">
+                            <div class="stat-value">87%</div>
+                            <div class="stat-label">Accuracy</div>
+                        </div>
+                        <div class="profile-stat">
+                            <div class="stat-value">5</div>
+                            <div class="stat-label">Streak</div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-section">
+                        <h2 class="section-header">
+                            <i class="fas fa-trophy"></i>
+                            Recent Achievements
+                        </h2>
+                        <div id="achievementsList">
+                            <!-- Achievements will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <div class="profile-section">
+                        <h2 class="section-header">
+                            <i class="fas fa-cog"></i>
+                            Settings
+                        </h2>
+                        <ul class="settings-list">
+                            <li class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-title">Dark Mode</div>
+                                    <div class="setting-description">Switch between light and dark theme</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="darkModeToggle">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </li>
+                            <li class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-title">Sound Effects</div>
+                                    <div class="setting-description">Play sounds during lessons and quizzes</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="soundToggle" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </li>
+                            <li class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-title">Daily Reminders</div>
+                                    <div class="setting-description">Get notified to practice daily</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="remindersToggle" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </li>
+                            <li class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-title">Auto-play Audio</div>
+                                    <div class="setting-description">Automatically play pronunciation audio</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="autoplayToggle">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </li>
+                        </ul>
+                        
+                        <button class="logout-btn" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Log Out
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active" data-view="dashboard">
+                <i class="fas fa-home nav-icon"></i>
+                <span class="nav-label">Home</span>
+            </a>
+            <a href="#" class="nav-item" data-view="learn">
+                <i class="fas fa-book-open nav-icon"></i>
+                <span class="nav-label">Learn</span>
+            </a>
+            <a href="#" class="nav-item" data-view="practice">
+                <i class="fas fa-dumbbell nav-icon"></i>
+                <span class="nav-label">Practice</span>
+            </a>
+            <a href="#" class="nav-item" data-view="profile">
+                <i class="fas fa-user nav-icon"></i>
+                <span class="nav-label">Profile</span>
+            </a>
+        </nav>
+        
+        <!-- Units Sidebar -->
+        <div class="units-sidebar" id="unitsSidebar">
+            <div class="units-header">
+                <h2 class="units-title">Learning Units</h2>
+                <button class="close-units" id="closeUnitsBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="units-list" id="unitsList">
+                <!-- Units will be loaded here -->
+            </div>
+        </div>
+        
+        <!-- Overlay -->
+        <div class="overlay" id="overlay"></div>
+        
+        <!-- Confetti Container -->
+        <div class="confetti-container" id="confettiContainer"></div>
+        
+        <!-- Audio Elements -->
+        <audio id="correctSound" preload="auto">
+            <source src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="wrongSound" preload="auto">
+            <source src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="successSound" preload="auto">
+            <source src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="clickSound" preload="auto">
+            <source src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="pronunciationAudio" preload="auto"></audio>
+    </div>
+
+    <script>
+        // App Data Structure
+        const appData = {
+            currentUser: {
+                name: "James Kariuki",
+                xp: 1850,
+                streak: 5,
+                level: 7,
+                avatar: "JK"
+            },
+            currentUnit: 4,
+            currentLesson: 0,
+            currentQuiz: null,
+            quizAnswers: [],
+            unitCompleted: [1, 2, 3], // Units 1-3 completed
+            units: [
+                {
+                    id: 1,
+                    title: "Introduction & Motivation",
+                    description: "Spark curiosity and cultural connection",
+                    progress: 100,
+                    status: "completed",
+                    lessons: [
+                        {
+                            title: "Welcome to Dholuo",
+                            content: `
+                                <h2 class="lesson-title">Welcome to Dholuo!</h2>
+                                <p class="lesson-subtitle">Start your journey learning this beautiful language</p>
+                                
+                                <div class="lesson-section">
+                                    <h3 class="section-title"><i class="fas fa-info-circle"></i> About Dholuo Language</h3>
+                                    <p class="lesson-text">Dholuo (also known as Luo) is a Nilotic language spoken by approximately 4.2 million people in Kenya and Tanzania. It is the language of the Luo people, one of the largest ethnic groups in Kenya.</p>
+                                    <p class="lesson-text">Dholuo is a <strong>tonal language</strong>, meaning that pitch changes can alter the meaning of words. It has a rich oral tradition with proverbs, stories, and songs.</p>
+                                </div>
+                                
+                                <div class="lesson-section">
+                                    <h3 class="section-title"><i class="fas fa-star"></i> Fun Facts</h3>
+                                    <div class="example-box">
+                                        <div class="example-header">
+                                            <span>Dholuo</span>
+                                            <span>English</span>
+                                            <span>Swahili</span>
+                                            <span>Pronunciation</span>
+                                        </div>
+                                        <div class="example-row">
+                                            <div class="luo-text">Nyasaye</div>
+                                            <div class="english-text">God</div>
+                                            <div class="swahili-text">Mungu</div>
+                                            <div class="pronunciation">(nya-SA-ye)</div>
+                                        </div>
+                                        <div class="example-row">
+                                            <div class="luo-text">Tarik</div>
+                                            <div class="english-text">Date</div>
+                                            <div class="swahili-text">Tarehe</div>
+                                            <div class="pronunciation">(ta-REEK)</div>
+                                        </div>
+                                        <div class="example-row">
+                                            <div class="luo-text">Motoka</div>
+                                            <div class="english-text">Car</div>
+                                            <div class="swahili-text">Gari</div>
+                                            <div class="pronunciation">(mo-TO-ka)</div>
+                                        </div>
+                                        <div class="example-row">
+                                            <div class="luo-text">Pesa</div>
+                                            <div class="english-text">Money</div>
+                                            <div class="swahili-text">Pesa</div>
+                                            <div class="pronunciation">(PE-sa)</div>
+                                        </div>
+                                    </div>
+                                    <p class="lesson-text">These are examples of loanwords from Swahili and English that have been incorporated into Dholuo.</p>
+                                </div>
+                                
+                                <div class="lesson-section">
+                                    <h3 class="section-title"><i class="fas fa-volume-up"></i> Listen & Repeat</h3>
+                                    <div class="audio-player">
+                                        <button class="play-btn" onclick="playPronunciation('https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3')">
+                                            <i class="fas fa-play"></i>
+                                        </button>
+                                        <div class="audio-text">
+                                            <strong>Mos</strong> - Hello (General greeting) / Hujambo (Swahili)
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="syntax-comparison">
+                                    <h3 class="comparison-title"><i class="fas fa-code"></i> Basic Sentence Structure</h3>
+                                    <div class="comparison-row">
+                                        <div class="language-label">English:</div>
+                                        <div class="language-sentence">I eat food</div>
+                                    </div>
+                                    <div class="comparison-row">
+                                        <div class="language-label">Dholuo:</div>
+                                        <div class="language-sentence">
+                                            <span class="syntax-highlight highlight-subject">An</span> 
+                                            <span class="syntax-highlight highlight-prefix">A</span>chiemo 
+                                            chak
+                                        </div>
+                                    </div>
+                                    <div class="comparison-row">
+                                        <div class="language-label">Swahili:</div>
+                                        <div class="language-sentence">
+                                            <span class="syntax-highlight highlight-subject">Mimi</span> 
+                                            <span class="syntax-highlight highlight-prefix">nina</span>kula 
+                                            chakula
+                                        </div>
+                                    </div>
+                                    <div class="syntax-explanation">
+                                        Notice how the pronoun "An" (I) matches "Mimi" in Swahili, and the prefix "A-" in Dholuo matches "nina-" in Swahili for present tense.
+                                    </div>
+                                </div>
+                                
+                                <button class="practice-btn" onclick="startLessonQuiz(1, 0)">Practice This Lesson</button>
+                            `
+                        },
+                        {
+                            title: "Basic Greetings",
+                            content: `
+                                <h2 class="lesson-title">Basic Greetings</h2>
+                                <p class="lesson-subtitle">Learn how to greet people in Dholuo</p>
+                                
+                                <div class="lesson-section">
+                                    <h3 class="section-title"><i class="fas fa-handshake"></i> Common Greetings</h3>
+                                    <div class="example-box">
+                                        <div class="example-header">
+                                            <span>Dholuo</span>
+                                            <span>English</span>
+                                            <span>Swahili</span>
+                                            <span>Pronunciation</span>
+                                        </div>
+                                        <div class="example-row">
+                                            <div class="luo-text">Mos</div>
+                                            <div class="english-text">Hello (general)</div>
+                                            <div class="swahili-text">Hujambo</div>
+                                            <div class="pronunciation">mohs</div>
+                                        </div>
+                                        <div class="example-row">
+                                            <div class="luo-text">Mos ahinya</div>
+                                            <div class="english-text">Hello, how are you?</div>
+                                            <div class="swahili-text">Habari yako?</div>
+                                            <div class="pronunciation">mohs a-HEE-nya</div>
+                                        </div>
+                                        <div class="example-row">
+                                            <div class="luo-text">Adhi</div>
+                                            <div class="english-text">Goodbye</div>
+                                            <div class="swahili-text">Kwaheri</div>
+                                            <div class="pronunciation">AH-dee</div>
+                                        </div>
+                                        <div class="example-row">
+                                            <div class="luo-text">Erokamano</div>
+                                            <div class="english-text">Thank you</div>
+                                            <div class="swahili-text">Asante</div>
+                                            <div class="pronunciation">eh-roh-ka-MA-noh</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="lesson-section">
+                                    <h3 class="section-title"><i class="fas fa-clock"></i> Time-specific Greetings</h3>
+                                    <div class="example-box">
+                                        <div class="example-header">
+                                            <span>Dholuo</span>
+                                            <span>English</span>
+                                            <span>Swahili</span>
+                                            <span>Pronunciation</span>
+                                        </div>
+                                        <div class="example-row">
+                                            <div class="luo-text">Oyaore?</div>
+                                            <div class="english-text">How was your day? (evening)</div>
+                                            <div class="swahili-text">Umeshindaje leo?</div>
+                                            <div class="pronunciation">oh-YA-oh-reh</div>
+                                        </div>
+                                        <div class="example-row">
+                                            <div class="luo-text">Oimore?</div>
+                                            <div class="english-text">How was your night? (morning)</div>
+                                            <div class="swahili-text">Umetoka vizuri usiku?</div>
+                                            <div class="pronunciation">oh-ee-MOH-reh</div>
+                                        </div>
+                                        <div class="example-row">
+                                            <div class="luo-text">Ber / Ber ahinya</div>
+                                            <div class="english-text">Fine / I'm fine</div>
+                                            <div class="swahili-text">Nzuri / Mimi nzuri</div>
+                                            <div class="pronunciation">behr / behr a-HEE-nya</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="syntax-comparison">
+                                    <h3 class="comparison-title"><i class="fas fa-code"></i> Greeting Sentence Examples</h3>
+                                    <div class="comparison-row">
+                                        <div class="language-label">English:</div>
+                                        <div class="language-sentence">I am going with a friend</div>
+                                    </div>
+                                    <div class="comparison-row">
+                                        <div class="language-label">Dholuo:</div>
+                                        <div class="language-sentence">
+                                            Adhi 
+                                            <span class="syntax-highlight highlight-conjunction">gi</span> 
+                                            osiep
+                                        </div>
+                                    </div>
+                                    <div class="comparison-row">
+                                        <div class="language-label">Swahili:</div>
+                                        <div class="language-sentence">
+                                            Ninaenda 
+                                            <span class="syntax-highlight highlight-conjunction">na</span> 
+                                            rafiki
+                                        </div>
+                                    </div>
+                                    <div class="syntax-explanation">
+                                        Notice the conjunction "gi" (with) in Dholuo matches "na" in Swahili, both serving the same function in the sentence.
+                                    </div>
+                                </div>
+                                
+                                <button class="practice-btn" onclick="startLessonQuiz(1, 1)">Practice This Lesson</button>
+                            `
+                        }
+                    ],
+                    quiz: [
+                        {
+                            question: "What does 'Mos' mean?",
+                            options: ["Thank you", "Hello", "Goodbye", "How are you?"],
+                            correctAnswer: 1,
+                            explanation: "'Mos' is the general greeting in Dholuo, similar to 'Hello' in English or 'Hujambo' in Swahili."
+                        },
+                        {
+                            question: "How do you say 'Thank you' in Dholuo?",
+                            options: ["Adhi", "Mos", "Erokamano", "Ber"],
+                            correctAnswer: 2,
+                            explanation: "'Erokamano' means 'Thank you' in Dholuo (similar to 'Asante' in Swahili)."
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "Sounds & Pronunciation",
+                    description: "Master all Dholuo sounds, tones, and rhythm",
+                    progress: 100,
+                    status: "completed",
+                    lessons: [
+                        {
+                            title: "Vowels and Consonants",
+                            content: `
+                                <h2 class="lesson-title">Vowels and Consonants</h2>
+                                <p class="lesson-subtitle">Learn the basic sounds of Dholuo</p>
+                                
+                                <div class="lesson-section">
+                                    <h3 class="section-title"><i class="fas fa-volume-up"></i> Dholuo Vowels (7 sounds)</h3>
+                                    <div class="example-box">
+                                        <div class="example-header">
+                                            <span>Dholuo</span>
+                                            <span>English</span>
+                                            <span>Swahili</span>
+                                            <span>Pronunciation</span>
+                                        </div>
+                                        <div class="example-row">
+                                            <div class="luo-text">a</div>
+                                            <div class="english-text">Like 'a' in 'father'</div>
+                                            <div class="swahili-text">Kama 'a' katika 'baba'</div>
+                                            <div class="pronunciation">Abiro (I will come)</div>
+                                        </div>
+                                        <div class="example-row">
+                                            <div class="luo-text">e</div>
+                                            <div class="english-text">Like 'e' in 'bed'</div>
+                                            <div class="swahili-text">Kama 'e' katika 'tembo'</div>
+                                            <div class="pronunciation">Erokamano (Thank you)</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="lesson-section">
+                                    <h3 class="section-title"><i class="fas fa-wave-square"></i> Tonal Patterns</h3>
+                                    <p class="lesson-text">Dholuo has high and low tones that change word meanings:</p>
+                                    <div class="example-box">
+                                        <div class="example-header">
+                                            <span>Dholuo</span>
+                                            <span>English</span>
+                                            <span>Swahili</span>
+                                            <span>Pronunciation</span>
+                                        </div>
+                                        <div class="example-row">
+                                            <div class="luo-text">bá</div>
+                                            <div class="english-text">come (high tone)</div>
+                                            <div class="swahili-text">kuja</div>
+                                            <div class="pronunciation"></div>
+                                        </div>
+                                        <div class="example-row">
+                                            <div class="luo-text">bà</div>
+                                            <div class="english-text">not (low tone)</div>
+                                            <div class="swahili-text">si</div>
+                                            <div class="pronunciation"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button class="practice-btn" onclick="startLessonQuiz(2, 0)">Practice This Lesson</button>
+                            `
+                        }
+                    ],
+                    quiz: [
+                        {
+                            question: "How many vowel sounds does Dholuo have?",
+                            options: ["5", "7", "10", "12"],
+                            correctAnswer: 1,
+                            explanation: "Dholuo has 7 vowel sounds: a, e, i, o, u, ɛ, ɔ"
+                        }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "High-Frequency Words",
+                    description: "Learn core vocabulary for immediate communication",
+                    progress: 100,
+                    status: "completed",
+                    lessons: [
+                        {
+                            title: "Essential Everyday Words",
+                            content: `
+                                <h2 class="lesson-title">Essential Everyday Words</h2>
+                                <p class="lesson-subtitle">Learn the most common Dholuo words for daily use</p>
+                                
+                                <div class="lesson-section">
+                                    <h3 class="section-title"><i class="fas fa-home"></i> Common Nouns</h3>
+                                    <div class="example-box">
+                                        <div class="example-header">
+                                            <span>Dholuo</span>
+                                            <span>English</span>
+                                            <span>Swahili</span>
+                                            <span>Pronunciation</span>
+                                        </div>
+                                        <div class="example-row">
+                                            <div class="luo-text">Dala</div>
+                                            <div class="english-text">Home/House</div>
+                                            <div class="swahili-text">Nyumba</div>
+                                            <div class="pronunciation">DAH-lah</div>
+                                        </div>
+                                        <div class="example-row">
+                                            <div class="luo-text">Chak</div>
+                                            <div class="english-text">Food</div>
+                                            <div class="swahili-text">Chakula</div>
+                                            <div class="pronunciation">chahk</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button class="practice-btn" onclick="startLessonQuiz(3, 0)">Practice This Lesson</button>
+                            `
+                        }
+                    ],
+                    quiz: [
+                        {
+                            question: "What does 'Dala' mean?",
+                            options: ["Food", "Water", "Home/House", "Child"],
+                            correctAnswer: 2,
+                            explanation: "'Dala' means home or house in Dholuo (similar to 'Nyumba' in Swahili)."
+                        }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "Parts of Speech & Grammar",
+                    description: "Understand sentence building blocks",
+                    progress: 60,
+                    status: "in-progress",
+                    lessons: [
+                        {
+                            title: "Nouns & Verbs",
+                            content: `
+                                <h2 class="lesson-title">Nouns & Verbs</h2>
+                                <p class="lesson-subtitle">Learn the fundamental parts of speech in Dholuo</p>
+                                
+                                <div class="lesson-section">
+                                    <h3 class="section-title"><i class="fas fa-user"></i> Nouns</h3>
+                                    <p class="lesson-text">Nouns name people, places, things, or ideas. In Dholuo, nouns have classes indicated by prefixes.</p>
+                                    <table class="parts-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>English</th>
+                                                <th>Swahili</th>
+                                                <th>Dholuo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="type">Person</td>
+                                                <td class="english">Teacher</td>
+                                                <td class="swahili">Mwalimu</td>
+                                                <td class="luo">Ja-somo</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Place</td>
+                                                <td class="english">City</td>
+                                                <td class="swahili">Mji</td>
+                                                <td class="luo">Mji</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Thing</td>
+                                                <td class="english">Book</td>
+                                                <td class="swahili">Kitabu</td>
+                                                <td class="luo">Buk</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Idea</td>
+                                                <td class="english">Happiness</td>
+                                                <td class="swahili">Furaha</td>
+                                                <td class="luo">Mor</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="lesson-section">
+                                    <h3 class="section-title"><i class="fas fa-running"></i> Verbs</h3>
+                                    <p class="lesson-text">Verbs show action or state of being. In Dholuo, verbs are conjugated based on tense and subject.</p>
+                                    <table class="parts-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>English</th>
+                                                <th>Swahili</th>
+                                                <th>Dholuo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="type">Action</td>
+                                                <td class="english">Run</td>
+                                                <td class="swahili">Kimbia</td>
+                                                <td class="luo">Ring</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Action</td>
+                                                <td class="english">Eat</td>
+                                                <td class="swahili">Kula</td>
+                                                <td class="luo">Chiemo</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Being</td>
+                                                <td class="english">Is, are</td>
+                                                <td class="swahili">Ni</td>
+                                                <td class="luo">En</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Mental</td>
+                                                <td class="english">Think</td>
+                                                <td class="swahili">Fikiri</td>
+                                                <td class="luo">Paro</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="syntax-comparison">
+                                    <h3 class="comparison-title"><i class="fas fa-code"></i> Verb Conjugation Example</h3>
+                                    <div class="comparison-row">
+                                        <div class="language-label">English:</div>
+                                        <div class="language-sentence">I eat food</div>
+                                    </div>
+                                    <div class="comparison-row">
+                                        <div class="language-label">Dholuo:</div>
+                                        <div class="language-sentence">
+                                            <span class="syntax-highlight highlight-subject">An</span> 
+                                            <span class="syntax-highlight highlight-prefix">A</span>chiemo 
+                                            chak
+                                        </div>
+                                    </div>
+                                    <div class="comparison-row">
+                                        <div class="language-label">Swahili:</div>
+                                        <div class="language-sentence">
+                                            <span class="syntax-highlight highlight-subject">Mimi</span> 
+                                            <span class="syntax-highlight highlight-prefix">nina</span>kula 
+                                            chakula
+                                        </div>
+                                    </div>
+                                    <div class="syntax-explanation">
+                                        The pronoun "An" (I) triggers the prefix "A-" on the verb in Dholuo, similar to how "Mimi" triggers "nina-" in Swahili.
+                                    </div>
+                                </div>
+                                
+                                <button class="practice-btn" onclick="startLessonQuiz(4, 0)">Practice This Lesson</button>
+                            `
+                        },
+                        {
+                            title: "Pronouns - Complete Guide",
+                            content: `
+                                <h2 class="lesson-title">Pronouns - Complete Guide</h2>
+                                <p class="lesson-subtitle">Master all pronoun types in Dholuo with comparative examples</p>
+                                
+                                <div class="lesson-section">
+                                    <h3 class="section-title"><i class="fas fa-user"></i> 1. Personal Pronouns</h3>
+                                    <p class="lesson-text">Refer to specific people or things: I, me, you, he, him, she, her, it, we, us, they, them</p>
+                                    <table class="parts-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>English</th>
+                                                <th>Swahili</th>
+                                                <th>Dholuo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="type">Subject</td>
+                                                <td class="english">I, me</td>
+                                                <td class="swahili">Mimi</td>
+                                                <td class="luo">An</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Subject</td>
+                                                <td class="english">You (singular)</td>
+                                                <td class="swahili">Wewe</td>
+                                                <td class="luo">In</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Subject</td>
+                                                <td class="english">He, she, it</td>
+                                                <td class="swahili">Yeye</td>
+                                                <td class="luo">En</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Subject</td>
+                                                <td class="english">We, us</td>
+                                                <td class="swahili">Sisi</td>
+                                                <td class="luo">Wan</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Subject</td>
+                                                <td class="english">You (plural)</td>
+                                                <td class="swahili">Ninyi</td>
+                                                <td class="luo">Un</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Subject</td>
+                                                <td class="english">They, them</td>
+                                                <td class="swahili">Wao</td>
+                                                <td class="luo">Gin</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="lesson-section">
+                                    <h3 class="section-title"><i class="fas fa-key"></i> 2. Possessive Pronouns</h3>
+                                    <p class="lesson-text">Show ownership: my, mine, your, yours, his, her, hers, its, our, ours, their, theirs</p>
+                                    <table class="parts-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>English</th>
+                                                <th>Swahili</th>
+                                                <th>Dholuo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="type">Possessive</td>
+                                                <td class="english">My, mine</td>
+                                                <td class="swahili">Yangu</td>
+                                                <td class="luo">Mara</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Possessive</td>
+                                                <td class="english">Your, yours</td>
+                                                <td class="swahili">Yako</td>
+                                                <td class="luo">Mare</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Possessive</td>
+                                                <td class="english">His, her, hers</td>
+                                                <td class="swahili">Yake</td>
+                                                <td class="luo">Mane</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Possessive</td>
+                                                <td class="english">Our, ours</td>
+                                                <td class="swahili">Yetu</td>
+                                                <td class="luo">Marwa</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="lesson-section">
+                                    <h3 class="section-title"><i class="fas fa-sync"></i> 3. Reflexive Pronouns</h3>
+                                    <p class="lesson-text">Refer back to the subject: myself, yourself, himself, herself, itself, ourselves, yourselves, themselves</p>
+                                    <table class="parts-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>English</th>
+                                                <th>Swahili</th>
+                                                <th>Dholuo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="type">Reflexive</td>
+                                                <td class="english">Myself</td>
+                                                <td class="swahili">Mimi mwenyewe</td>
+                                                <td class="luo">An mara</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Reflexive</td>
+                                                <td class="english">Yourself</td>
+                                                <td class="swahili">Wewe mwenyewe</td>
+                                                <td class="luo">In mare</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Reflexive</td>
+                                                <td class="english">Himself/herself</td>
+                                                <td class="swahili">Yeye mwenyewe</td>
+                                                <td class="luo">En mane</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="lesson-section">
+                                    <h3 class="section-title"><i class="fas fa-hand-point-up"></i> 4. Demonstrative Pronouns</h3>
+                                    <p class="lesson-text">Point to specific things: this, that, these, those</p>
+                                    <table class="parts-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>English</th>
+                                                <th>Swahili</th>
+                                                <th>Dholuo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="type">Demonstrative</td>
+                                                <td class="english">This</td>
+                                                <td class="swahili">Hii</td>
+                                                <td class="luo">Mano</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Demonstrative</td>
+                                                <td class="english">That</td>
+                                                <td class="swahili">Hiyo</td>
+                                                <td class="luo">Magu</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Demonstrative</td>
+                                                <td class="english">These</td>
+                                                <td class="swahili">Hizi</td>
+                                                <td class="luo">Magi</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Demonstrative</td>
+                                                <td class="english">Those</td>
+                                                <td class="swahili">Hizo</td>
+                                                <td class="luo">Mago</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="lesson-section">
+                                    <h3 class="section-title"><i class="fas fa-link"></i> 5. Relative Pronouns</h3>
+                                    <p class="lesson-text">Introduce relative clauses: who, whom, whose, which, that</p>
+                                    <table class="parts-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>English</th>
+                                                <th>Swahili</th>
+                                                <th>Dholuo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="type">Relative</td>
+                                                <td class="english">Who</td>
+                                                <td class="swahili">Ambaye</td>
+                                                <td class="luo">Ma</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Relative</td>
+                                                <td class="english">Which</td>
+                                                <td class="swahili">Ambayo</td>
+                                                <td class="luo">Ma</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Relative</td>
+                                                <td class="english">That</td>
+                                                <td class="swahili">Amba</td>
+                                                <td class="luo">Ma</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="lesson-section">
+                                    <h3 class="section-title"><i class="fas fa-question"></i> 6. Interrogative Pronouns</h3>
+                                    <p class="lesson-text">Used to ask questions: who, whom, whose, which, what</p>
+                                    <table class="parts-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>English</th>
+                                                <th>Swahili</th>
+                                                <th>Dholuo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="type">Interrogative</td>
+                                                <td class="english">Who</td>
+                                                <td class="swahili">Nani</td>
+                                                <td class="luo">Ng'a</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Interrogative</td>
+                                                <td class="english">What</td>
+                                                <td class="swahili">Nini</td>
+                                                <td class="luo">Ang'o</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Interrogative</td>
+                                                <td class="english">Which</td>
+                                                <td class="swahili">Ipi</td>
+                                                <td class="luo">Mano</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="lesson-section">
+                                    <h3 class="section-title"><i class="fas fa-infinity"></i> 7. Indefinite Pronouns</h3>
+                                    <p class="lesson-text">Refer to non-specific people or things: someone, anyone, everyone, no one, something, anything, everything, nothing, many, few, several</p>
+                                    <table class="parts-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>English</th>
+                                                <th>Swahili</th>
+                                                <th>Dholuo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="type">Indefinite</td>
+                                                <td class="english">Someone</td>
+                                                <td class="swahili">Mtu yeyote</td>
+                                                <td class="luo">Dhano moro</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Indefinite</td>
+                                                <td class="english">Everyone</td>
+                                                <td class="swahili">Kila mtu</td>
+                                                <td class="luo">Dhano duto</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Indefinite</td>
+                                                <td class="english">Nothing</td>
+                                                <td class="swahili">Hakuna kitu</td>
+                                                <td class="luo">Ok ang'o</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="lesson-section">
+                                    <h3 class="section-title"><i class="fas fa-exchange-alt"></i> 8. Reciprocal Pronouns</h3>
+                                    <p class="lesson-text">Show mutual action or relationship: each other, one another</p>
+                                    <table class="parts-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>English</th>
+                                                <th>Swahili</th>
+                                                <th>Dholuo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="type">Reciprocal</td>
+                                                <td class="english">Each other</td>
+                                                <td class="swahili">Wana</td>
+                                                <td class="luo">Gi moro</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Reciprocal</td>
+                                                <td class="english">One another</td>
+                                                <td class="swahili">Kwa wao</td>
+                                                <td class="luo">Gi moro</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="lesson-section">
+                                    <h3 class="section-title"><i class="fas fa-exclamation"></i> 9. Intensive Pronouns</h3>
+                                    <p class="lesson-text">Emphasize a noun or another pronoun: myself, yourself, himself, herself, itself, ourselves, yourselves, themselves</p>
+                                    <table class="parts-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>English</th>
+                                                <th>Swahili</th>
+                                                <th>Dholuo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="type">Intensive</td>
+                                                <td class="english">I myself</td>
+                                                <td class="swahili">Mimi mwenyewe</td>
+                                                <td class="luo">An mara</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Intensive</td>
+                                                <td class="english">You yourself</td>
+                                                <td class="swahili">Wewe mwenyewe</td>
+                                                <td class="luo">In mare</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Intensive</td>
+                                                <td class="english">He himself</td>
+                                                <td class="swahili">Yeye mwenyewe</td>
+                                                <td class="luo">En mane</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="syntax-comparison">
+                                    <h3 class="comparison-title"><i class="fas fa-code"></i> Pronoun Usage Examples</h3>
+                                    <div class="comparison-row">
+                                        <div class="language-label">English:</div>
+                                        <div class="language-sentence">
+                                            <span class="syntax-highlight highlight-subject">I</span> see <span class="syntax-highlight highlight-adjective">my</span> friend
+                                        </div>
+                                    </div>
+                                    <div class="comparison-row">
+                                        <div class="language-label">Dholuo:</div>
+                                        <div class="language-sentence">
+                                            <span class="syntax-highlight highlight-subject">An</span> neno osiep 
+                                            <span class="syntax-highlight highlight-adjective">mara</span>
+                                        </div>
+                                    </div>
+                                    <div class="comparison-row">
+                                        <div class="language-label">Swahili:</div>
+                                        <div class="language-sentence">
+                                            <span class="syntax-highlight highlight-subject">Mimi</span> naona rafiki 
+                                            <span class="syntax-highlight highlight-adjective">yangu</span>
+                                        </div>
+                                    </div>
+                                    <div class="syntax-explanation">
+                                        The personal pronoun "An" (I) comes first in Dholuo, while the possessive pronoun "mara" (my) comes after the noun, similar to Swahili structure.
+                                    </div>
+                                </div>
+                                
+                                <div class="syntax-comparison">
+                                    <h3 class="comparison-title"><i class="fas fa-code"></i> Demonstrative Example</h3>
+                                    <div class="comparison-row">
+                                        <div class="language-label">English:</div>
+                                        <div class="language-sentence">
+                                            <span class="syntax-highlight highlight-subject">This</span> is a good book
+                                        </div>
+                                    </div>
+                                    <div class="comparison-row">
+                                        <div class="language-label">Dholuo:</div>
+                                        <div class="language-sentence">
+                                            <span class="syntax-highlight highlight-subject">Mano</span> en buk maber
+                                        </div>
+                                    </div>
+                                    <div class="comparison-row">
+                                        <div class="language-label">Swahili:</div>
+                                        <div class="language-sentence">
+                                            <span class="syntax-highlight highlight-subject">Hii</span> ni kitabu kizuri
+                                        </div>
+                                    </div>
+                                    <div class="syntax-explanation">
+                                        Demonstrative pronouns "Mano" (this) in Dholuo and "Hii" in Swahili both come at the beginning of the sentence.
+                                    </div>
+                                </div>
+                                
+                                <button class="practice-btn" onclick="startLessonQuiz(4, 1)">Practice This Lesson</button>
+                            `
+                        },
+                        {
+                            title: "Adjectives, Adverbs & Prepositions",
+                            content: `
+                                <h2 class="lesson-title">Adjectives, Adverbs & Prepositions</h2>
+                                <p class="lesson-subtitle">Learn how to describe and relate things in Dholuo</p>
+                                
+                                <div class="lesson-section">
+                                    <h3 class="section-title"><i class="fas fa-paint-brush"></i> Adjectives</h3>
+                                    <p class="lesson-text">Adjectives describe nouns or pronouns. In Dholuo, adjectives usually follow the noun.</p>
+                                    <table class="parts-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>English</th>
+                                                <th>Swahili</th>
+                                                <th>Dholuo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="type">Quality</td>
+                                                <td class="english">Happy</td>
+                                                <td class="swahili">Furahi</td>
+                                                <td class="luo">Mor</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Color</td>
+                                                <td class="english">Blue</td>
+                                                <td class="swahili">Buluu</td>
+                                                <td class="luo">Buluu</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Size</td>
+                                                <td class="english">Tall</td>
+                                                <td class="swahili">Mrefu</td>
+                                                <td class="luo">Nyar</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Quality</td>
+                                                <td class="english">Interesting</td>
+                                                <td class="swahili">Ya kuvutia</td>
+                                                <td class="luo">Marach</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="lesson-section">
+                                    <h3 class="section-title"><i class="fas fa-tachometer-alt"></i> Adverbs</h3>
+                                    <p class="lesson-text">Adverbs modify verbs, adjectives, or other adverbs. They often describe how, when, or where something happens.</p>
+                                    <table class="parts-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>English</th>
+                                                <th>Swahili</th>
+                                                <th>Dholuo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="type">Manner</td>
+                                                <td class="english">Quickly</td>
+                                                <td class="swahili">Haraka</td>
+                                                <td class="luo">Maber</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Degree</td>
+                                                <td class="english">Very</td>
+                                                <td class="swahili">Sana</td>
+                                                <td class="luo">Ahinya</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Manner</td>
+                                                <td class="english">Well</td>
+                                                <td class="swahili">Vizuri</td>
+                                                <td class="luo">Maber</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Time</td>
+                                                <td class="english">Yesterday</td>
+                                                <td class="swahili">Jana</td>
+                                                <td class="luo">Nyoro</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="lesson-section">
+                                    <h3 class="section-title"><i class="fas fa-map-marker-alt"></i> Prepositions</h3>
+                                    <p class="lesson-text">Prepositions show the relationship between a noun/pronoun and another word in the sentence.</p>
+                                    <table class="parts-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>English</th>
+                                                <th>Swahili</th>
+                                                <th>Dholuo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="type">Place</td>
+                                                <td class="english">In</td>
+                                                <td class="swahili">Ndani ya</td>
+                                                <td class="luo">E</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Place</td>
+                                                <td class="english">On</td>
+                                                <td class="swahili">Juu ya</td>
+                                                <td class="luo">E wi</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Place</td>
+                                                <td class="english">Under</td>
+                                                <td class="swahili">Chini ya</td>
+                                                <td class="luo">E piny</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Place</td>
+                                                <td class="english">Between</td>
+                                                <td class="swahili">Kati ya</td>
+                                                <td class="luo">E kata</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="syntax-comparison">
+                                    <h3 class="comparison-title"><i class="fas fa-code"></i> Adjective and Adverb Examples</h3>
+                                    <div class="comparison-row">
+                                        <div class="language-label">English:</div>
+                                        <div class="language-sentence">
+                                            I see a <span class="syntax-highlight highlight-adjective">happy</span> child <span class="syntax-highlight highlight-adjective">quickly</span>
+                                        </div>
+                                    </div>
+                                    <div class="comparison-row">
+                                        <div class="language-label">Dholuo:</div>
+                                        <div class="language-sentence">
+                                            An neno nyathi 
+                                            <span class="syntax-highlight highlight-adjective">mor</span> 
+                                            <span class="syntax-highlight highlight-adjective">maber</span>
+                                        </div>
+                                    </div>
+                                    <div class="comparison-row">
+                                        <div class="language-label">Swahili:</div>
+                                        <div class="language-sentence">
+                                            Mimi naona mtoto 
+                                            <span class="syntax-highlight highlight-adjective">mwenye furaha</span> 
+                                            <span class="syntax-highlight highlight-adjective">haraka</span>
+                                        </div>
+                                    </div>
+                                    <div class="syntax-explanation">
+                                        Both Dholuo and Swahili place adjectives after the noun. The adverb "maber" (quickly) comes at the end in Dholuo, similar to Swahili.
+                                    </div>
+                                </div>
+                                
+                                <button class="practice-btn" onclick="startLessonQuiz(4, 2)">Practice This Lesson</button>
+                            `
+                        },
+                        {
+                            title: "Conjunctions & Interjections",
+                            content: `
+                                <h2 class="lesson-title">Conjunctions & Interjections</h2>
+                                <p class="lesson-subtitle">Learn how to connect ideas and express emotions in Dholuo</p>
+                                
+                                <div class="lesson-section">
+                                    <h3 class="section-title"><i class="fas fa-link"></i> Conjunctions</h3>
+                                    <p class="lesson-text">Conjunctions join words, phrases, or clauses together. They help create complex sentences.</p>
+                                    <table class="parts-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>English</th>
+                                                <th>Swahili</th>
+                                                <th>Dholuo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="type">Addition</td>
+                                                <td class="english">And</td>
+                                                <td class="swahili">Na</td>
+                                                <td class="luo">Kata</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Contrast</td>
+                                                <td class="english">But</td>
+                                                <td class="swahili">Lakini</td>
+                                                <td class="luo">To</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Choice</td>
+                                                <td class="english">Or</td>
+                                                <td class="swahili">Au</td>
+                                                <td class="luo">Koso</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Cause</td>
+                                                <td class="english">Because</td>
+                                                <td class="swahili">Kwa sababu</td>
+                                                <td class="luo">Nikech</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="lesson-section">
+                                    <h3 class="section-title"><i class="fas fa-exclamation"></i> Interjections</h3>
+                                    <p class="lesson-text">Interjections express emotion or reaction. They often stand alone and are followed by an exclamation mark.</p>
+                                    <table class="parts-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>English</th>
+                                                <th>Swahili</th>
+                                                <th>Dholuo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="type">Surprise</td>
+                                                <td class="english">Wow!</td>
+                                                <td class="swahili">Wow!</td>
+                                                <td class="luo">Ayi!</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Pain</td>
+                                                <td class="english">Ouch!</td>
+                                                <td class="swahili">Au!</td>
+                                                <td class="luo">Adundo!</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Attention</td>
+                                                <td class="english">Hey!</td>
+                                                <td class="swahili">Haya!</td>
+                                                <td class="luo">Woi!</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="type">Regret</td>
+                                                <td class="english">Oh!</td>
+                                                <td class="swahili">Lo!</td>
+                                                <td class="luo">Oyaye!</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="lesson-section">
 
