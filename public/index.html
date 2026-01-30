@@ -4789,7 +4789,17 @@
                 <div class="result-icon ${percentage >= 70 ? '' : 'fail'}">
                     <i class="fas fa-${percentage >= 70 ? 'trophy' : 'redo'}"></i>
                 </div>
-                <h2 class="results-title">${percentage >= 70 ? 'Quiz Complete!' : 'Keep Practicing'}</h2>
+                <h2 class="results-title">
+                  ${
+                    percentage === 100 ? 'Excellent Work!' :
+                    percentage >= 80 ? 'Very Good' :
+                    percentage >= 65 ? 'Good Work!' :
+                    percentage >= 50 ? 'Nice Try!' :
+                    percentage >= 30 ? 'Almost there, Keep going!' :
+                    'Don't give up, You'll improve!'
+                  }
+                </h2>
+
                 <div class="results-score">${percentage}%</div>
                 <p class="results-message">
                     You scored ${quizScore} out of ${currentQuiz.questions.length} correct.
